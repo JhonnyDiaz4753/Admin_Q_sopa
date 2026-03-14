@@ -1,0 +1,43 @@
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-page);
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+  z-index: 49;
+}
+
+/* ── Desktop: margin-left = ancho del sidebar ── */
+.admin-main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+.admin-main.sidebar-collapsed {
+  margin-left: 64px;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 28px;
+}
+
+/* ── Mobile: sin margin, sidebar flota encima ── */
+@media (max-width: 768px) {
+  .admin-main,
+  .admin-main.sidebar-collapsed {
+    margin-left: 0 !important;
+  }
+  .admin-content {
+    padding: 16px;
+  }
+}
