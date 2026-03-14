@@ -5,8 +5,8 @@ import Dashboard   from "./components/Dashboard/Dashboard";
 import Categorias    from "./components/Categorias/Categorias";
 import Productos     from "./components/Productos/Productos";
 import Ingredientes  from "./components/Ingredientes/Ingredientes";
-import POS          from "./components/POS/POS";
-import Ventas       from "./components/Ventas/Ventas";
+import POS           from "./components/POS";
+import Ventas         from "./components/Ventas";
 
 const Placeholder = ({ name }) => (
   <div style={{

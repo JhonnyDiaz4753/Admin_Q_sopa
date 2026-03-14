@@ -1,4 +1,4 @@
-const BASE = "http://apiqsp-production.up.railway.app"; 
+const BASE = "http://localhost:8080"; 
 
 
 
@@ -6,18 +6,11 @@ const req = (url, opts = {}) =>
   fetch(`${BASE}${url}`, { headers: { "Content-Type": "application/json" }, ...opts })
     .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
 
-// Intenta parsear JSON solo si hay contenido
-const parseResponse = async r => {
-  if (!r.ok) throw new Error(r.statusText);
-  const text = await r.text();
-  return text ? JSON.parse(text) : true;
-};
- 
-const get  = url         => fetch(`${BASE}${url}`).then(parseResponse);
-const post = (url, body) => fetch(`${BASE}${url}`, { method: "POST",   headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(parseResponse);
-const put  = (url, body) => fetch(`${BASE}${url}`, { method: "PUT",    headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(parseResponse);
-const del  = url         => fetch(`${BASE}${url}`, { method: "DELETE" }).then(parseResponse);
- 
+const get  = url        => req(url);
+const post = (url, body) => req(url, { method: "POST",   body: JSON.stringify(body) });
+const put  = (url, body) => req(url, { method: "PUT",    body: JSON.stringify(body) });
+const del  = url         => req(url, { method: "DELETE" }).then(() => true);
+
 // ── Categorías ──────────────────────────────────────────────
 export const getCategories    = ()       => get("/categories");
 export const createCategory   = data     => post("/categories", data);

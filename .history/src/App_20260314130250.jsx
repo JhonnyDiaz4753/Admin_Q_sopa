@@ -5,7 +5,7 @@ import Dashboard   from "./components/Dashboard/Dashboard";
 import Categorias    from "./components/Categorias/Categorias";
 import Productos     from "./components/Productos/Productos";
 import Ingredientes  from "./components/Ingredientes/Ingredientes";
-import POS          from "./components/POS/POS";
+import POS          from "./components/POS/Pos";
 import Ventas       from "./components/Ventas/Ventas";
 
 const Placeholder = ({ name }) => (
@@ -25,7 +25,7 @@ function App() {
       <Routes>
         <Route element={<AdminLayout />}>
           <Route index                   element={<Dashboard />} />
-          <Route path="pos"              element={<POS/>} />
+          <Route path="pos"              element={<Pos/>} />
           <Route path="productos"      element={<Productos />}    />
           <Route path="categorias"     element={<Categorias />}   />
           <Route path="ingredientes"   element={<Ingredientes />} />
