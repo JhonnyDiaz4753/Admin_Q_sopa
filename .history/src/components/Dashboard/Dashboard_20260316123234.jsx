@@ -1,14 +1,10 @@
 import "./Dashboard.css";
 import { useEffect, useState } from "react";
-import {
-  LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
-} from "recharts";
-import { getDashboardStats, getWeeklyData, getMonthComparison, getRevenueByCategory } from "../../services/api";
+import { getDashboardStats } from "../../services/api";
 
 // ── Colores para la torta ─────────────────────────────────────
 const PIE_COLORS = ["#ec1313", "#3b82f6", "#22c55e", "#f59e0b", "#a855f7", "#06b6d4"];
-
+ 
 // ── Tooltip personalizado ─────────────────────────────────────
 const CustomTooltip = ({ active, payload, label, prefix = "$" }) => {
   if (!active || !payload?.length) return null;
@@ -26,7 +22,7 @@ const CustomTooltip = ({ active, payload, label, prefix = "$" }) => {
     </div>
   );
 };
-
+ 
 function StatCard({ icon, label, value, color, sub }) {
   return (
     <div className="stat-card">
@@ -41,7 +37,7 @@ function StatCard({ icon, label, value, color, sub }) {
     </div>
   );
 }
-
+ 
 function ChartCard({ title, subtitle, children, loading }) {
   return (
     <div className="chart-card">
@@ -58,16 +54,16 @@ function ChartCard({ title, subtitle, children, loading }) {
     </div>
   );
 }
-
+ 
 export default function Dashboard() {
   const [stats,      setStats]      = useState(null);
   const [weekly,     setWeekly]     = useState([]);
   const [comparison, setComparison] = useState(null);
   const [byCategory, setByCategory] = useState([]);
   const [loading,    setLoading]    = useState({ stats: true, weekly: true, comparison: true, category: true });
-
+ 
   const setDone = key => setLoading(l => ({ ...l, [key]: false }));
-
+ 
   useEffect(() => {
     getDashboardStats()
       .then(setStats).catch(() => {}).finally(() => setDone("stats"));
@@ -78,14 +74,14 @@ export default function Dashboard() {
     getRevenueByCategory()
       .then(setByCategory).catch(() => {}).finally(() => setDone("category"));
   }, []);
-
+ 
   const revChange = comparison?.revenueChange ?? 0;
   const revSign   = revChange >= 0 ? "+" : "";
   const revColor  = revChange >= 0 ? "#22c55e" : "#ef4444";
-
+ 
   return (
     <div className="dashboard">
-
+ 
       {/* ── Stats cards ── */}
       <div className="stats-grid">
         <StatCard icon="receipt_long" label="Ventas totales"
@@ -99,10 +95,10 @@ export default function Dashboard() {
         <StatCard icon="trending_up" label="Productos top"
           value={stats?.topProducts?.length ?? "—"} color="#3b82f6" />
       </div>
-
+ 
       {/* ── Fila 1: línea semanal + torta categorías ── */}
       <div className="charts-row">
-
+ 
         {/* Ventas últimos 7 días */}
         <ChartCard
           title="Ventas últimos 7 días"
@@ -129,7 +125,7 @@ export default function Dashboard() {
             <span style={{ color: "#3b82f6" }}>● N° ventas</span>
           </div>
         </ChartCard>
-
+ 
         {/* Ingresos por categoría */}
         <ChartCard
           title="Ingresos por categoría"
@@ -158,7 +154,7 @@ export default function Dashboard() {
           }
         </ChartCard>
       </div>
-
+ 
       {/* ── Fila 2: comparativa meses ── */}
       <ChartCard
         title="Comparativa mensual"
@@ -187,7 +183,7 @@ export default function Dashboard() {
                   <Bar dataKey="ventas"   name="N° ventas" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={60} />
                 </BarChart>
               </ResponsiveContainer>
-
+ 
               {/* Métricas rápidas */}
               <div className="comparison-metrics">
                 <div className="metric-item">
@@ -216,7 +212,7 @@ export default function Dashboard() {
           )
         }
       </ChartCard>
-
+ 
       {/* ── Top productos ── */}
       {stats?.topProducts?.length > 0 && (
         <div className="top-products-card">
