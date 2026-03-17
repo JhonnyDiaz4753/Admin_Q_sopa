@@ -8,7 +8,6 @@ import Ingredientes  from "./components/Ingredientes/Ingredientes";
 import POS          from "./components/POS/POS";
 import Ventas       from "./components/Ventas/Ventas";
 import { ToastContainer, toast } from 'react-toastify';
-import { useTheme } from './hooks/useTheme';
 
 const Placeholder = ({ name }) => (
   <div style={{
@@ -21,7 +20,7 @@ const Placeholder = ({ name }) => (
   </div>
 );
 function App() {
- const { theme } = useTheme();
+ 
   return (
       
       <BrowserRouter>
@@ -32,7 +31,7 @@ function App() {
         newestOnTop
         closeOnClick
         pauseOnHover
-        theme={theme} 
+        theme="dark" 
       />
 
 

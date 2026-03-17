@@ -78,7 +78,6 @@ export default function POS() {
 
     } catch (e) {
       alert("Error al registrar la venta: " + e.message);
-      toast.error("Error al registrar la venta: " + e.message);
     } finally {
       setSaving(false);
     }

@@ -51,11 +51,7 @@ export default function Ingredientes() {
       setModal(null);
       load();
       toast.success(`Ingrediente ${editId ? "actualizado" : "creado"} con éxito`);
-    }
-    catch(err) {
-      toast.error("Error al guardar el ingrediente: " + err.message);
-    }
-    finally { setSaving(false); }
+    } finally { setSaving(false); toast.error(`Error al ${editId ? "actualizar" : "crear"} el ingrediente`); }
   };
 
   const handleDelete = async () => {

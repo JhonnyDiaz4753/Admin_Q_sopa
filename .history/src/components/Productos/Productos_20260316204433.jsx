@@ -65,7 +65,7 @@ export default function Productos() {
       load();
       toast.success(`Producto ${editId ? "actualizado" : "creado"} con éxito`);
     }catch(err) {
-      toast.error("Error al guardar el producto: " + err.message);
+      toast.error("Error al guardar el producto"+ err.mesage);
     } finally { setSaving(false);}
   };
 

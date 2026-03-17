@@ -74,11 +74,9 @@ export default function POS() {
       setReceipt({ ...sale, cartSnapshot: cart, subtotal, tax, total, payment, received: Number(received), change });
       clearCart();
       setReceived("");
-      toast.success("Venta registrada con éxito");
 
     } catch (e) {
       alert("Error al registrar la venta: " + e.message);
-      toast.error("Error al registrar la venta: " + e.message);
     } finally {
       setSaving(false);
     }

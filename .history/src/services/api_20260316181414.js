@@ -1,4 +1,4 @@
-const BASE = "http://apiqsp-production.up.railway.app"; 
+const BASE = "http://localhost:8080"; 
 
 
 

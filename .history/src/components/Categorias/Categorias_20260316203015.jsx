@@ -43,9 +43,10 @@ export default function Categorias() {
       setModal(null);
       load();
       toast.success(`Categoría ${editId ? "actualizada" : "creada"} con éxito`);
-    }catch(err) {
-      toast.error("Error al guardar la categoría: " + err.message);
-    } finally {  setSaving(false); }
+    } finally {
+       setSaving(false); 
+      toast.error(`Error al ${editId ? "actualizar" : "crear"} la categoría`);
+    }
   };
 
   const handleDelete = async () => {

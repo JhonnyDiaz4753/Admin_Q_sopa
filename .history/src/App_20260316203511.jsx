@@ -21,7 +21,7 @@ const Placeholder = ({ name }) => (
   </div>
 );
 function App() {
- const { theme } = useTheme();
+ const { theme, toggleTheme } = useTheme();
   return (
       
       <BrowserRouter>
