@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import "./theme.css";
 import AdminLayout from "./components/AdminLayout";
 import Dashboard   from "./components/Dashboard/Dashboard";
@@ -32,6 +33,7 @@ function App() {
           <Route path="ventas"           element={<Ventas />} />
         </Route>
       </Routes>
+      <SpeedInsights />
     </BrowserRouter>
   );
    
