@@ -1,4 +1,4 @@
-const BASE = "https://localhost:8080"; 
+const BASE = "https://api-q-sp.onrender.com"; 
 
 const getToken = () => localStorage.getItem("admin-token");
 

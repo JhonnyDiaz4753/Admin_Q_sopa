@@ -1,31 +1,11 @@
-const BASE = "https://localhost:8080"; 
+const BASE = "https://api-q-sp.onrender.com/"; 
 
-const getToken = () => localStorage.getItem("admin-token");
+
 
 const req = (url, opts = {}) =>
-  fetch(`${BASE}${url}`, {
-    headers: {
-      "Content-Type": "application/json",
-      // Agrega el token si existe
-      ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
-    },
-    ...opts,
-  }).then(r => {
-    if (r.status === 401) {
-      localStorage.removeItem("admin-token");
-      window.location.href = "/login";
-      throw new Error("No autorizado");
-    }
-    if (!r.ok) throw new Error(r.statusText);
-    return r.json();
-  });
+  fetch(`${BASE}${url}`, { headers: { "Content-Type": "application/json" }, ...opts })
+    .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); });
 
-  export const login = (username, password) =>
-  fetch(`${BASE}/api/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  }).then(r => r.json());
 // Intenta parsear JSON solo si hay contenido
 const parseResponse = async r => {
   if (!r.ok) throw new Error(r.statusText);
