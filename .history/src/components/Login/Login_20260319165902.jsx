@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { login } from "../../services/api";
 import "./Login.css";
 import { useTheme } from "../../hooks/useTheme";

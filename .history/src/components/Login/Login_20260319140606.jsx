@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { login } from "../../services/api";
 import "./Login.css";
 import { useTheme } from "../../hooks/useTheme";
@@ -11,43 +11,7 @@ export default function Login({ onLogin }) {
   const [blocked,   setBlocked]   = useState(false);
   const [minutes,   setMinutes]   = useState(0);
   const [remaining, setRemaining] = useState(null);
-   const [countdown, setCountdown] = useState(0);
   const [loading,   setLoading]   = useState(false);
-    const timerRef = useRef(null);
-
-
-  useEffect(() => {
-    if (countdown <= 0) {
-      if (blocked) {
-        setBlocked(false);
-        setError(null);
-      }
-      return;
-    }
- 
-    timerRef.current = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current);
-          setBlocked(false);
-          setError(null);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
- 
-    return () => clearInterval(timerRef.current);
-  }, [countdown]);
- 
- 
-  const formatCountdown = secs => {
-    const m = Math.floor(secs / 60).toString().padStart(2, "0");
-    const s = (secs % 60).toString().padStart(2, "0");
-    return `${m}:${s}`;
-  };
-
-
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -55,20 +19,19 @@ export default function Login({ onLogin }) {
     setLoading(true);
     setError(null);
     setRemaining(null);
- 
+
     try {
       const data = await login(form.username, form.password);
- 
+
       if (data.token) {
         localStorage.setItem("admin-token", data.token);
         onLogin();
- 
+
       } else if (data.blocked) {
         setBlocked(true);
-        
-        setCountdown((data.minutesRemaining ?? 15) * 60);
-        setError(null);
- 
+        setMinutes(data.minutesRemaining);
+        setError(data.message);
+
       } else {
         setError(data.error ?? "Credenciales inválidas");
         if (data.attemptsRemaining !== undefined) {
@@ -81,7 +44,6 @@ export default function Login({ onLogin }) {
       setLoading(false);
     }
   };
- 
   return (
    <div className="login-wrapper">
   <button className="theme-toggle" onClick={toggle} title={theme === "dark" ? "Modo claro" : "Modo oscuro"}>
@@ -119,49 +81,10 @@ export default function Login({ onLogin }) {
               placeholder="••••••••"
             />
       </div>
-       {/* Error normal con intentos restantes */}
-  {error && !blocked && (
-            <div className="login-error">
-              <span className="material-symbols-outlined">error</span>
-              <div>
-                <div>{error}</div>
-                {remaining !== null && (
-                  <div className="login-attempts">
-                    {remaining === 1
-                      ? "⚠️ Último intento antes del bloqueo"
-                      : `${remaining} intento(s) restante(s)`}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-          {/* Bloqueado */}
-  {blocked && (
-            <div className="login-blocked">
-              <span className="material-symbols-outlined">lock</span>
-              <div>
-                <div className="login-blocked-title">Cuenta bloqueada</div>
-                <div className="login-blocked-sub">
-                  Se desbloqueará automáticamente en {formatCountdown(countdown)}
-                </div>
-              </div>
-            </div>
-          )}
-          
-          
-          
-          <button className="login-btn" disabled={loading || blocked}>
-            {loading ? (
-              "Verificando..."
-            ) : blocked ? (
-              <span className="login-btn-blocked">
-                <span className="material-symbols-outlined">lock</span>
-                Bloqueado — {formatCountdown(countdown)}
-              </span>
-            ) : (
-              "Ingresar"
-            )}
-          </button>
+      {error && <p className="login-error">{error}</p>}
+      <button className="btn btn-primary login-btn" disabled={loading}>
+        {loading ? "Verificando..." : "Ingresar"}
+      </button>
     </form>
   </div>
 </div>

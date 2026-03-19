@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { login } from "../../services/api";
 import "./Login.css";
 import { useTheme } from "../../hooks/useTheme";
@@ -47,28 +47,26 @@ export default function Login({ onLogin }) {
     return `${m}:${s}`;
   };
 
-
-
+  
   const handleSubmit = async e => {
     e.preventDefault();
     if (blocked) return;
     setLoading(true);
     setError(null);
     setRemaining(null);
- 
+
     try {
       const data = await login(form.username, form.password);
- 
+
       if (data.token) {
         localStorage.setItem("admin-token", data.token);
         onLogin();
- 
+
       } else if (data.blocked) {
         setBlocked(true);
-        
-        setCountdown((data.minutesRemaining ?? 15) * 60);
-        setError(null);
- 
+        setMinutes(data.minutesRemaining);
+        setError(data.message);
+
       } else {
         setError(data.error ?? "Credenciales inválidas");
         if (data.attemptsRemaining !== undefined) {
@@ -81,7 +79,6 @@ export default function Login({ onLogin }) {
       setLoading(false);
     }
   };
- 
   return (
    <div className="login-wrapper">
   <button className="theme-toggle" onClick={toggle} title={theme === "dark" ? "Modo claro" : "Modo oscuro"}>
@@ -120,7 +117,7 @@ export default function Login({ onLogin }) {
             />
       </div>
        {/* Error normal con intentos restantes */}
-  {error && !blocked && (
+          {error && !blocked && (
             <div className="login-error">
               <span className="material-symbols-outlined">error</span>
               <div>
@@ -128,39 +125,32 @@ export default function Login({ onLogin }) {
                 {remaining !== null && (
                   <div className="login-attempts">
                     {remaining === 1
-                      ? "⚠️ Último intento antes del bloqueo"
+                      ? "⚠️ Último intento antes de bloqueo"
                       : `${remaining} intento(s) restante(s)`}
                   </div>
                 )}
               </div>
             </div>
           )}
+
           {/* Bloqueado */}
-  {blocked && (
+          {blocked && (
             <div className="login-blocked">
               <span className="material-symbols-outlined">lock</span>
               <div>
                 <div className="login-blocked-title">Cuenta bloqueada</div>
                 <div className="login-blocked-sub">
-                  Se desbloqueará automáticamente en {formatCountdown(countdown)}
+                  Intenta de nuevo en {minutes} minuto(s)
                 </div>
               </div>
             </div>
           )}
-          
-          
-          
+
+      
           <button className="login-btn" disabled={loading || blocked}>
-            {loading ? (
-              "Verificando..."
-            ) : blocked ? (
-              <span className="login-btn-blocked">
-                <span className="material-symbols-outlined">lock</span>
-                Bloqueado — {formatCountdown(countdown)}
-              </span>
-            ) : (
-              "Ingresar"
-            )}
+            {loading   ? "Verificando..."  :
+             blocked   ? `Bloqueado ${minutes} min` :
+             "Ingresar"}
           </button>
     </form>
   </div>
