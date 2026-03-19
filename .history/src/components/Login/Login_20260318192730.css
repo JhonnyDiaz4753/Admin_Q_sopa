@@ -96,19 +96,3 @@
   background: var(--bg-card);
   transform: scale(1.1);
 }
-.login-brand {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
-}
-
-.login-logo {
-  height: 110px;
-  width: auto;
-  object-fit: contain;
-  border-radius: 10px;
-}
-/* opcional: suaviza logos con fondo blanco en dark mode */
-html:not(.light) .login-logo {
-  mix-blend-mode: lighten;
-}

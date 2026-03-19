@@ -13,7 +13,7 @@ const TITLES = {
   "/ventas":       "Historial de ventas",
 };
 
-export default function AdminLayout({ onLogout }) {
+export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { pathname } = useLocation();

@@ -1,0 +1,339 @@
+/* ═══════════════════════════════════════════
+   LOGIN – TEMA OSCURO (default) + CLARO
+   El hook useTheme agrega/quita class="light"
+   en <html>. Todo lo demás usa variables.
+   ═══════════════════════════════════════════ */
+
+/* ── Variables: tema oscuro (default) ── */
+:root {
+  --login-bg-from:      #0f172a;
+  --login-bg-to:        #020617;
+  --login-card-bg:      rgba(15, 23, 42, 0.75);
+  --login-card-border:  rgba(255, 255, 255, 0.06);
+  --login-card-shadow:  rgba(0, 0, 0, 0.4);
+  --login-input-bg:     rgba(255, 255, 255, 0.04);
+  --login-input-border: rgba(255, 255, 255, 0.07);
+  --login-footer-sep:   rgba(255, 255, 255, 0.05);
+  --login-status-bg:    rgba(15, 23, 42, 0.6);
+  --login-status-border:rgba(255, 255, 255, 0.07);
+  --toggle-bg:          rgba(255, 255, 255, 0.06);
+  --toggle-hover-bg:    rgba(255, 255, 255, 0.12);
+  --toggle-color:       #94a3b8;
+}
+
+/* ── Variables: tema claro ── */
+html.light {
+  --login-bg-from:      #e2e8f0;
+  --login-bg-to:        #f1f5f9;
+  --login-card-bg:      rgba(255, 255, 255, 0.85);
+  --login-card-border:  rgba(0, 0, 0, 0.07);
+  --login-card-shadow:  rgba(0, 0, 0, 0.12);
+  --login-input-bg:     rgba(0, 0, 0, 0.03);
+  --login-input-border: rgba(0, 0, 0, 0.08);
+  --login-footer-sep:   rgba(0, 0, 0, 0.07);
+  --login-status-bg:    rgba(255, 255, 255, 0.7);
+  --login-status-border:rgba(0, 0, 0, 0.08);
+  --toggle-bg:          rgba(0, 0, 0, 0.06);
+  --toggle-hover-bg:    rgba(0, 0, 0, 0.1);
+  --toggle-color:       #475569;
+
+  /* Sobreescribe las variables globales del proyecto para modo claro */
+  --text-1: #0f172a;
+  --text-3: #64748b;
+}
+
+/* ─────────────────────────────────────────── */
+
+.login-wrapper {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, var(--login-bg-from), var(--login-bg-to));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 16px;
+  transition: background 0.3s ease;
+  position: relative;
+}
+
+/* ── Theme toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: var(--toggle-bg);
+  color: var(--toggle-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  z-index: 100;
+}
+.theme-toggle:hover {
+  background: var(--toggle-hover-bg);
+  transform: rotate(20deg);
+}
+
+/* ── Card ── */
+.login-card {
+  background: var(--login-card-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--login-card-border);
+  border-radius: 24px;
+  padding: 40px 36px 28px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 60px var(--login-card-shadow);
+  animation: fadeUp 0.4s ease;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ── */
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-logo {
+  width: 56px;
+  height: 56px;
+  background: var(--accent, #22c55e);
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.35);
+}
+
+.login-brand {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-1, #f1f5f9);
+  letter-spacing: -0.5px;
+  margin: 0 0 4px;
+  transition: color 0.3s;
+}
+
+.login-subtitle {
+  font-size: 13px;
+  color: var(--text-3, #64748b);
+  margin: 0;
+  transition: color 0.3s;
+}
+
+/* ── Form ── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-3, #64748b);
+  transition: color 0.3s;
+}
+
+.form-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgot-link {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent, #22c55e);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+.forgot-link:hover { opacity: 0.7; }
+
+/* ── Input wrapper ── */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-3, #64748b);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  transition: color 0.3s;
+}
+
+.input-wrapper input {
+  width: 100%;
+  background: var(--login-input-bg);
+  border: 1px solid var(--login-input-border);
+  border-radius: 12px;
+  padding: 12px 40px 12px 38px;
+  color: var(--text-1, #f1f5f9);
+  font-size: 14px;
+  outline: none;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.3s;
+  box-sizing: border-box;
+}
+
+.input-wrapper input::placeholder {
+  color: var(--text-3, #64748b);
+  opacity: 0.6;
+}
+
+.input-wrapper input:focus {
+  border-color: var(--accent, #22c55e);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+  background: var(--login-input-bg);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-3, #64748b);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+.toggle-password:hover { color: var(--text-1, #f1f5f9); }
+
+/* ── Error ── */
+.login-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #ef4444;
+}
+
+/* ── Button ── */
+.login-btn {
+  margin-top: 4px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent, #22c55e);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-arrow {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(34, 197, 94, 0.35);
+  background: #16a34a;
+}
+
+.login-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Footer links ── */
+.login-footer {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--login-footer-sep);
+  transition: border-color 0.3s;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  color: var(--text-3, #64748b);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-link:hover { color: var(--text-1, #f1f5f9); }
+
+/* ── System status badge ── */
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--login-status-bg);
+  border: 1px solid var(--login-status-border);
+  border-radius: 100px;
+  padding: 7px 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-3, #64748b);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent, #22c55e);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+  flex-shrink: 0;
+}
+.login-logo {
+  width: 88px;
+  height: 88px;
+  border-radius: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  overflow: hidden;          /* recorta la imagen al border-radius */
+}
+
+.login-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;       /* cambia a "cover" si prefieres que llene todo */
+}

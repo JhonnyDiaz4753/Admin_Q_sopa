@@ -99,14 +99,14 @@
 .login-brand {
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .login-logo {
-  height: 110px;
+  height: 72px;
   width: auto;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 /* opcional: suaviza logos con fondo blanco en dark mode */
 html:not(.light) .login-logo {

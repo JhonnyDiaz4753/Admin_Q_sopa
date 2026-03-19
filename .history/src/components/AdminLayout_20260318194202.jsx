@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
 import Topbar from "./Topbar/Topbar";
 import "./AdminLayout.css";
+import {onLogout } from "../services/api";
 
 const TITLES = {
   "/":             "Dashboard",
@@ -13,7 +14,7 @@ const TITLES = {
   "/ventas":       "Historial de ventas",
 };
 
-export default function AdminLayout({ onLogout }) {
+export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { pathname } = useLocation();
