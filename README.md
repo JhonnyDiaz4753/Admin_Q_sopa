@@ -33,8 +33,8 @@ Panel de gestión completo para restaurantes. Permite administrar el menú, gest
 
 | Dashboard | POS | Gestión de menú |
 |---|---|---|
-| ![dashboard] | ![pos] | ![menu] |
-|<img width="1904" height="915" alt="Captura de pantalla 2026-03-17 133820" src="https://github.com/user-attachments/assets/f1d3bbc7-bee0-4bf9-a03d-ddfdfccfaeaf" />| <img width="1915" height="945" alt="Captura de pantalla 2026-03-20 104544" src="https://github.com/user-attachments/assets/dfd68e27-f731-43b5-833b-cb2d0059380a" /> | |
+|<img width="1904" height="915" alt="Captura de pantalla 2026-03-17 133820" src="https://github.com/user-attachments/assets/f1d3bbc7-bee0-4bf9-a03d-ddfdfccfaeaf" />| <img width="1915" height="945" alt="Captura de pantalla 2026-03-20 104544" src="https://github.com/user-attachments/assets/dfd68e27-f731-43b5-833b-cb2d0059380a" /> |<img width="1912" height="944" alt="Captura de pantalla 2026-03-20 104603" src="https://github.com/user-attachments/assets/7edc7538-16a1-4d8c-b706-bcdd992ea55a" />
+ |
 ---
 
 ## 🛠 Stack tecnológico
