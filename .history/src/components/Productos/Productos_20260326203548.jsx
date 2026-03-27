@@ -46,13 +46,10 @@ export default function Productos() {
 
   const loadProdIngredients = useCallback(async (prodId) => {
     setLoadingIngr(true);
-    console.log('[Ingredientes] Cargando ingredientes del producto id:', prodId);
     try {
       const data = await getProductIngredients(prodId);
-      console.log('[Ingredientes] Respuesta cruda de la API:', data);
       setProdIngredients(Array.isArray(data) ? data : []);
-    } catch(err) {
-      console.error('[Ingredientes] Error al cargar:', err);
+    } catch {
       setProdIngredients([]);
     } finally {
       setLoadingIngr(false);
@@ -128,29 +125,22 @@ export default function Productos() {
       return;
     }
     setAddingIngr(true);
- // ✅ DESPUÉS
-const ingredientId = Number(selectedIngredientId);
-console.log('[Ingredientes] Añadiendo ingrediente — productoId:', editId, '| ingredientId:', ingredientId);
-try {
-  const res = await addProductIngredient(editId, ingredientId);
-      console.log('[Ingredientes] Respuesta al añadir:', res);
+    try {
+      await addProductIngredient(editId, { ingredientId: Number(selectedIngredientId) });
       await loadProdIngredients(editId);
       setSelectedIngredientId("");
       toast.success("Ingrediente añadido");
     } catch(err) {
-      console.error('[Ingredientes] Error al añadir:', err);
       toast.error("Error al añadir ingrediente: " + err.message);
     } finally { setAddingIngr(false); }
   };
 
   const handleRemoveIngredient = async (ingrId) => {
-    console.log('[Ingredientes] Eliminando ingrediente — productoId:', editId, '| ingredienteId:', ingrId);
     try {
       await removeProductIngredient(editId, ingrId);
       setProdIngredients(prev => prev.filter(i => i.id !== ingrId));
       toast.success("Ingrediente eliminado");
     } catch(err) {
-      console.error('[Ingredientes] Error al eliminar:', err);
       toast.error("Error al quitar ingrediente: " + err.message);
     }
   };
@@ -302,12 +292,6 @@ try {
                 </label>
                 <span className="toggle-label">{form.active ? "Activo" : "Inactivo"}</span>
               </div>
-              {!editId && (
-                <div className="prod-info-hint">
-                  <span className="material-symbols-outlined">info</span>
-                  Podrás añadir ingredientes después de guardar el producto.
-                </div>
-              )}
               <div className="form-actions">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(null)}>Cancelar</button>
                 <button type="submit" className="btn btn-primary" disabled={saving}>

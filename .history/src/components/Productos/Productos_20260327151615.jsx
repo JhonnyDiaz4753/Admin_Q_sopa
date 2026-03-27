@@ -51,6 +51,7 @@ export default function Productos() {
       const data = await getProductIngredients(prodId);
       console.log('[Ingredientes] Respuesta cruda de la API:', data);
       setProdIngredients(Array.isArray(data) ? data : []);
+      if (!Array.isArray(data)) console.warn('[Ingredientes] API no devolvió array:', data);
     } catch(err) {
       console.error('[Ingredientes] Error al cargar:', err);
       setProdIngredients([]);
@@ -104,10 +105,20 @@ export default function Productos() {
         active:      form.active,
         category: form.categoryId ? { id: Number(form.categoryId) } : null,
       };
-      editId ? await updateProduct(editId, payload) : await createProduct(payload);
-      setModal(null);
-      load();
-      toast.success(`Producto ${editId ? "actualizado" : "creado"} con éxito`);
+      if (editId) {
+        await updateProduct(editId, payload);
+        setModal(null);
+        load();
+        toast.success("Producto actualizado con éxito");
+      } else {
+        const created = await createProduct(payload);
+        load();
+        toast.success("Producto creado — ahora añade sus ingredientes");
+        // Pasar al modo edición con la pestaña de ingredientes
+        setEditId(created.id);
+        setActiveTab("ingredientes");
+        await loadProdIngredients(created.id);
+      }
     } catch(err) {
       toast.error("Error al guardar el producto: " + err.message);
     } finally { setSaving(false); }
@@ -128,11 +139,9 @@ export default function Productos() {
       return;
     }
     setAddingIngr(true);
- // ✅ DESPUÉS
-const ingredientId = Number(selectedIngredientId);
-console.log('[Ingredientes] Añadiendo ingrediente — productoId:', editId, '| ingredientId:', ingredientId);
-try {
-  const res = await addProductIngredient(editId, ingredientId);
+    console.log('[Ingredientes] Añadiendo ingrediente — productoId:', editId, '| ingredientId:', Number(selectedIngredientId));
+    try {
+      const res = await addProductIngredient(editId, Number(selectedIngredientId));
       console.log('[Ingredientes] Respuesta al añadir:', res);
       await loadProdIngredients(editId);
       setSelectedIngredientId("");
@@ -305,13 +314,13 @@ try {
               {!editId && (
                 <div className="prod-info-hint">
                   <span className="material-symbols-outlined">info</span>
-                  Podrás añadir ingredientes después de guardar el producto.
+                  Al guardar podrás añadir ingredientes al producto.
                 </div>
               )}
               <div className="form-actions">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(null)}>Cancelar</button>
                 <button type="submit" className="btn btn-primary" disabled={saving}>
-                  {saving ? "Guardando..." : "Guardar"}
+                  {saving ? "Guardando..." : editId ? "Guardar" : "Guardar y añadir ingredientes →"}
                 </button>
               </div>
             </form>

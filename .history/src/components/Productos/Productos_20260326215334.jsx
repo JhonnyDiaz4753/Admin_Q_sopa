@@ -128,11 +128,10 @@ export default function Productos() {
       return;
     }
     setAddingIngr(true);
- // ✅ DESPUÉS
-const ingredientId = Number(selectedIngredientId);
-console.log('[Ingredientes] Añadiendo ingrediente — productoId:', editId, '| ingredientId:', ingredientId);
-try {
-  const res = await addProductIngredient(editId, ingredientId);
+    const payload = { ingredientId: Number(selectedIngredientId) };
+    console.log('[Ingredientes] Añadiendo ingrediente — productoId:', editId, '| payload:', payload);
+    try {
+      const res = await addProductIngredient(editId, payload);
       console.log('[Ingredientes] Respuesta al añadir:', res);
       await loadProdIngredients(editId);
       setSelectedIngredientId("");
