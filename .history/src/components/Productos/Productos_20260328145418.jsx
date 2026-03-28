@@ -315,11 +315,16 @@ try {
                 </label>
                 <span className="toggle-label">{form.active ? "Activo" : "Inactivo"}</span>
               </div>
-
+              {!editId && (
+                <div className="prod-info-hint">
+                  <span className="material-symbols-outlined">info</span>
+                  Podrás añadir ingredientes después de guardar el producto.
+                </div>
+              )}
               <div className="form-actions">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(null)}>Cancelar</button>
                 <button type="submit" className="btn btn-primary" disabled={saving}>
-                 {saving ? "Guardando..." : editId ? "Guardar" : "Siguiente →"}
+                  {saving ? "Guardando..." : "Guardar"}
                 </button>
               </div>
             </form>

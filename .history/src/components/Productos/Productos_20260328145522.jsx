@@ -319,7 +319,7 @@ try {
               <div className="form-actions">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(null)}>Cancelar</button>
                 <button type="submit" className="btn btn-primary" disabled={saving}>
-                 {saving ? "Guardando..." : editId ? "Guardar" : "Siguiente →"}
+                  {saving ? "Guardando..." : "Guardar"}
                 </button>
               </div>
             </form>
