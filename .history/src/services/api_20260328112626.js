@@ -1,4 +1,4 @@
-const BASE = "https://api-node-qsopa.vercel.app";
+const BASE = "http://localhost:8080";
 
 const getToken = () => localStorage.getItem("admin-token");
 
